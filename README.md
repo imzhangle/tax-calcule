@@ -69,3 +69,23 @@ Montant des taxes	:	7.65
 Total	:	65.15
 ```
 
+
+### Input 3
+```
+curl -X POST \
+  http://localhost:8080/tax-calcule/tax \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: d12f22e6-8945-1396-7aeb-ce380a9d1f0f' \
+  -d '{"orders":[{"id":"6","name":"flacon de parfum importé","quantity":1,"priceHt":27.99},{"id":"7","name":"flacon de parfum","quantity":1,"priceHt":18.99},{"id":"8","name":"boîte de pilules contre la migraine","quantity":1,"priceHt":9.75},{"id":"9","name":"boîte de chocolats importés","quantity":1,"priceHt":11.25}]}'
+```
+should give you:
+```
+1	flacon de parfum importé	:	32.19
+1	flacon de parfum	:	20.89
+1	boîte de pilules contre la migraine	:	9.75
+1	boîte de chocolats importés	:	11.85
+Montant des taxes	:	6.70
+Total	:	74.68
+```
+  
