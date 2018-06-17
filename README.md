@@ -50,3 +50,22 @@ should give you:
 Montant des taxes	:	1.50
 Total	:	29.83
 ```
+### Input 2
+```
+curl -X POST \
+  http://localhost:8080/tax-calcule/tax \
+  -H 'cache-control: no-cache' \
+  -H 'content-type: application/json' \
+  -H 'postman-token: 22e6d35a-7acb-b5d1-2f53-478b39c137d0' \
+  -d '{"orders":[{"id":"4","name":"boîte de chocolats importée","quantity":1,"priceHt":10.00},{"id":"5","name":"flacon de parfum importé","quantity":1,"priceHt":47.50}]}'
+  ```
+  
+  should give you
+  
+ ```
+1	boîte de chocolats importée	:	10.50
+1	flacon de parfum importé	:	54.65
+Montant des taxes	:	7.65
+Total	:	65.15
+```
+
