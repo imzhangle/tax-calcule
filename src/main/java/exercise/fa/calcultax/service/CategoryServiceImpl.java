@@ -1,10 +1,13 @@
 package exercise.fa.calcultax.service;
 
+import javax.ws.rs.ext.Provider;
+
 import exercise.fa.calcultax.model.Category;
 import exercise.fa.calcultax.model.CategoryEnum;
 import exercise.fa.calcultax.model.Product;
 import exercise.fa.calcultax.util.StringNormalizer;
 
+@Provider
 public class CategoryServiceImpl implements CategoryService {
 
 	private static final String KEYWORDS_IMPORTE = "importe";

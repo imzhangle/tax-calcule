@@ -1,8 +1,11 @@
 package exercise.fa.calcultax.service;
 
+import javax.ws.rs.ext.Provider;
+
 import exercise.fa.calcultax.model.Order;
 import exercise.fa.calcultax.model.Product;
 
+@Provider
 public class ProductServiceImpl implements ProductService {
 
 	

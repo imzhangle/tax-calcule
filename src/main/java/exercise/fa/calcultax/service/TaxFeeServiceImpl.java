@@ -3,18 +3,23 @@ package exercise.fa.calcultax.service;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import javax.ws.rs.ext.Provider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import exercise.fa.calcultax.exceptions.TaxServiceException;
 import exercise.fa.calcultax.exceptions.TaxServiceFeeNotFoundException;
 import exercise.fa.calcultax.model.Category;
 import exercise.fa.calcultax.model.CategoryEnum;
 
+@Provider
 public class TaxFeeServiceImpl implements TaxFeeService {
 	private static final BigDecimal IMPORTE_TAX = new BigDecimal(5.0);
 	private static Map<CategoryEnum, BigDecimal> mapCategoryTaxRate = new HashMap<CategoryEnum, BigDecimal>();
 	
-	private static final Logger logger = Logger.getLogger(TaxFeeServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(TaxFeeServiceImpl.class.getName());
 	static{
 		mapCategoryTaxRate.put(CategoryEnum.BOOK, BigDecimal.ZERO);
 		mapCategoryTaxRate.put(CategoryEnum.FOOD, BigDecimal.ZERO);

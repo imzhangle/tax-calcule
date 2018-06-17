@@ -2,9 +2,12 @@ package exercise.fa.calcultax.service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
+
+import javax.inject.Inject;
+import javax.ws.rs.ext.Provider;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import exercise.fa.calcultax.exceptions.TaxServiceException;
 import exercise.fa.calcultax.model.Bill;
@@ -14,12 +17,16 @@ import exercise.fa.calcultax.model.OrderTaxIncluded;
 import exercise.fa.calcultax.model.Panier;
 import exercise.fa.calcultax.model.Product;
 
-public class TaxServiceImpl implements TaxService {
 
+@Provider
+public class TaxServiceImpl implements TaxService {
+	@Inject
 	private CategoryService categoryService;
+	@Inject
 	private ProductService productService;
+	@Inject
 	private TaxFeeService taxFeeService;
-	private static final Logger logger = Logger.getLogger(TaxServiceImpl.class.getName());
+	private static final Logger logger = LoggerFactory.getLogger(TaxServiceImpl.class.getName());
 	public TaxServiceImpl() {
 	
 	}
@@ -79,11 +86,11 @@ public class TaxServiceImpl implements TaxService {
 	}
 	private BigDecimal calculTax(Order order, BigDecimal categoryTax)
 	{
-		logger.fine("categorytax: "+categoryTax);
+		logger.debug("categorytax: "+categoryTax);
 		BigDecimal taxCalcule = order.getPriceHt().multiply(categoryTax).divide(new BigDecimal(100));
-		logger.fine("taxCalcule: "+taxCalcule);
+		logger.debug("taxCalcule: "+taxCalcule);
 		BigDecimal taxImputee = taxImputee(taxCalcule);
-		logger.fine("taximputee:"+taxImputee);
+		logger.debug("taximputee:"+taxImputee);
 		return taxImputee;
 	}
 	private BigDecimal taxByOrder(Order order, Category category)  throws TaxServiceException
@@ -91,9 +98,9 @@ public class TaxServiceImpl implements TaxService {
 
 
 		BigDecimal generalTax = calculGeneralTax(order, category);
-		logger.fine("generalTax:"+generalTax);
+		logger.debug("generalTax:"+generalTax);
 		BigDecimal importeTax = calculImportTax(order, category);
-		logger.fine("importeTax:"+importeTax);
+		logger.debug("importeTax:"+importeTax);
 		return generalTax.add(importeTax).setScale(2, RoundingMode.HALF_UP);
 		
 

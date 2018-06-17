@@ -6,7 +6,10 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
 import exercise.fa.calcultax.exceptions.TaxServiceException;
+import exercise.fa.calcultax.exceptions.TaxServiceInvalidParam;
 import exercise.fa.calcultax.model.Bill;
 import exercise.fa.calcultax.model.Order;
 import exercise.fa.calcultax.model.OrderTaxIncluded;
@@ -36,7 +39,9 @@ public class TaxServiceTest {
 		panier.getOrders().add(new Order("1", "livre", 1, new BigDecimal(12.49)));
 		panier.getOrders().add(new Order("2", "CD musical", 1, new BigDecimal(14.99)));
 		panier.getOrders().add(new Order("3", "barre de chocolat", 1, new BigDecimal(0.85)));
-		
+		Gson gson = new Gson();
+		String json = gson.toJson(panier);
+		System.out.println("input 1:"+json);
 		
 		Bill bill = taxService.calculBill(panier);
 		
@@ -61,7 +66,9 @@ public class TaxServiceTest {
 		Panier panier = new Panier();
 		panier.getOrders().add(new Order("4", "boîte de chocolats importée", 1, new BigDecimal(10.00)));
 		panier.getOrders().add(new Order("5", "flacon de parfum importé", 1, new BigDecimal(47.50)));
-		
+		Gson gson = new Gson();
+		String json = gson.toJson(panier);
+		System.out.println("input 2: "+json);		
 		
 		Bill bill = taxService.calculBill(panier);
 		
@@ -88,6 +95,9 @@ public class TaxServiceTest {
 		panier.getOrders().add(new Order("8", "boîte de pilules contre la migraine", 1, new BigDecimal(9.75)));
 		panier.getOrders().add(new Order("9", "boîte de chocolats importés", 1, new BigDecimal(11.25)));
 		
+		Gson gson = new Gson();
+		String json = gson.toJson(panier);
+		System.out.println("input 3:"+json);		
 		
 		Bill bill = taxService.calculBill(panier);
 		
@@ -106,6 +116,28 @@ public class TaxServiceTest {
 		Assertions.assertThat(orderList.get(2).getPriceTtc()).hasToString("9.75");
 		Assertions.assertThat(orderList.get(3).getPriceTtc()).hasToString("11.85");
 	}	
-	
+	@Test
+	public void testShouldRaiseInvalidParam1() throws TaxServiceException
+	{
+		Panier panier = new Panier();
+		panier.getOrders().add(new Order("1", "", 1, new BigDecimal(12.49)));
+
+
+		
+		
+		Assertions.assertThatThrownBy(() -> {taxService.calculBill(panier);}).isInstanceOf(TaxServiceInvalidParam.class).hasMessageContaining("product");
+
+
+	}	
+	@Test
+	public void testShouldRaiseInvalidParam2() throws TaxServiceException
+	{
+		Panier panier = new Panier();
+		panier.getOrders().add(new Order("1", "livre", 1, new BigDecimal(-1)));
+
+		Assertions.assertThatThrownBy(() -> {taxService.calculBill(panier);}).isInstanceOf(TaxServiceInvalidParam.class).hasMessageContaining("price");
+
+
+	}		
 	
 }
